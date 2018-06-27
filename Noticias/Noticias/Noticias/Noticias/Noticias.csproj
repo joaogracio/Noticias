@@ -162,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiViewModels\CreateNoticiaViewModel.cs" />
+    <Compile Include="Api\CategoriasController.cs" />
+    <Compile Include="Api\ImagensController.cs" />
+    <Compile Include="Api\JornalistasController.cs" />
     <Compile Include="Api\NoticiasController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -252,6 +255,11 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Images\A_Luta.jpg" />
+    <Content Include="Images\luta_continua.jpg" />
+    <Content Include="Images\Marcelo.jpg" />
+    <Content Include="Images\Mariana_Mortagua.jpg" />
+    <Content Include="Images\Milhares.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -284,6 +292,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\Procs.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />

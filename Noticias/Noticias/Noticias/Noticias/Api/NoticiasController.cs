@@ -1,6 +1,7 @@
 ﻿using Noticias.ApiViewModels;
 using Noticias.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -31,7 +32,8 @@ namespace Noticias.Api
                     noticia.Resumo,
                     noticia.Texto,
                     noticia.Titulo,
-                    noticia.Data
+                    noticia.Data,
+                    noticia.Imagens
                 })
                 .ToList();
 
@@ -47,6 +49,8 @@ namespace Noticias.Api
                 return NotFound();
             }
 
+            ICollection<Imagens> imagens = db.Imagem.Where(img => img.NoticiaFK == id).Select(imgs => imgs).ToList();
+
             var resultado = db.Noticia.
                 Select(noticia => new
                 {
@@ -54,10 +58,13 @@ namespace Noticias.Api
                     noticia.Resumo,
                     noticia.Texto,
                     noticia.Titulo,
-                    noticia.Data
+                    noticia.Data,
+                    noticia.Imagens
                 })
                 .Where(not => not.NoticiasID == id)
-                .ToList();
+                .FirstOrDefault();
+
+            noticias.Imagens = imagens;
 
             return Ok(resultado);
 
@@ -134,8 +141,18 @@ namespace Noticias.Api
             }
 
             // Caso Exista refencia para id fazer update
-            db.Entry(model).State = EntityState.Modified;
-            
+            var noticia = (from not in db.Noticia
+                           where not.NoticiasID == id
+                           select not).FirstOrDefault();
+
+            noticia.CategoriaFK = model.CategoriaFK;
+            noticia.Data = model.Data;
+            noticia.JornalistaFK = noticia.JornalistaFK;
+            noticia.Resumo = noticia.Resumo;
+            noticia.Texto = noticia.Texto;
+            noticia.Titulo = noticia.Titulo;
+
+            db.Entry(noticia);
 
             try
             {
@@ -149,7 +166,7 @@ namespace Noticias.Api
                 }
                 else
                 {
-                    throw;
+                    throw exp;
                 }
             }
 
@@ -157,8 +174,42 @@ namespace Noticias.Api
         }
         
         // DELETE: api/Noticias/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            // Verificar se existe referencia para este id
+            if ((db.Noticia.Select(not => not.NoticiasID == id) != null))
+            {
+                return BadRequest("Sorry, seems something wrong. Couldn't determine record to update.");
+            }
+
+            var noticia = (from not in db.Noticia
+                           where not.NoticiasID == id
+                           select not).FirstOrDefault();
+
+            var imagem = (from img in db.Imagem
+                          where img.NoticiaFK == id
+                          select img).FirstOrDefault();
+
+            db.Imagem.Remove(imagem);
+            db.Noticia.Remove(noticia);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException exp)
+            {
+                if (!(db.Noticia.Count(e => e.NoticiasID == id) > 0))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw exp;
+                }
+            }
+
+            return Ok();
         }
 
         private Models.Noticias ModelToNoticia([FromBody] Models.Noticias model) {

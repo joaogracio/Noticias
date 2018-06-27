@@ -1,24 +1,114 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+﻿<div class="jumbotron" id="capa">
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
+<div class="row" id="mais-recentes">
 </div>
+
+<div class="hidden">
+
+    @* Template da capa de uma noticia
+
+    *@
+    <div id="template-capa">
+        @*Titulo da Noticia*@
+        <h1></h1>
+        @*Texto da Noticia*@
+        <p class="lead"></p>
+        @**@
+        <a href="" class="btn btn-primary btn-lg"><img src=""/></a>
+        @*Link para ver a noticia especifica*@
+        <p><a href="" class="btn btn-primary btn-lg"></a></p>
+    </div>
+
+
+    @*Template de HTML de uma noticia
+
+    *@
+
+    <div class="col-md-4" id="template-noticia">
+        @*Titulo da Noticia*@
+        <h2></h2>
+        @*Texto da Noticia*@
+        <p></p>
+        @*Link para ver a noticia em espifica*@
+        <p><a class="btn btn-default" href=""></a></p>
+    </div>
+
+</div>
+
+<script>
+
+    function divNoticia(noticia) {
+
+        let template = document.querySelector('#template-noticia').cloneNode(true);
+
+        template.removeAttribute('id');
+
+        let titulo = template.querySelector('h2');
+        titulo.innerHTML = noticia.Titulo;
+
+        let texto = template.querySelector('p:nth-child(2)');
+        texto.innerHTML = noticia.Texto;
+
+        let link = template.querySelector('p:nth-child(3) > a');
+        link.href = null;
+
+        return template;
+    }
+
+    function divCapa(noticia) {
+
+        let template = document.querySelector('#template-capa').cloneNode(true);
+
+        template.removeAttribute('id');
+
+        let titulo = template.querySelector('h1');
+        titulo.innerHTML = noticia.Titulo;
+
+        let texto = template.querySelector('p:nth-child(2)');
+        texto.innerHTML = noticia.Texto;
+
+        let link_imagem = template.querySelector('p:nth-child(3)');
+
+        let imagem = template.querySelector('div > a');
+        imagem.src = '~/Imagem/' + noticia.Imagens[0].Directorio;
+
+        let link = template.querySelector('p:nth-child(4) > a');
+        link.href = null;
+
+        return template;
+    }
+
+    function adicionarNoticia(noticia) {
+        let template = divNoticia(noticia);
+
+        let grelha = document.querySelector('#mais-recentes');
+
+        grelha.appendChild(template);
+    }
+
+    function adicionarNoticiaCapa(noticia) {
+        let template = divCapa(noticia);
+
+        let grelha = document.querySelector('#capa');
+
+        grelha.appendChild(template);
+    }
+
+    function iniciarNoticias() {
+        getNoticias()
+            .then(noticias => {
+
+                for (let noticia of noticias) {
+                    adicionarNoticia(noticia);
+                }
+            })
+        getNoticia(1)
+            .then(function (myJson) {
+                adicionarNoticiaCapa(myJson);
+                return myJson;
+            });
+    }
+
+    iniciarNoticias();
+
+</script>
