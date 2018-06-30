@@ -35,7 +35,7 @@ namespace Noticias.Api
                     noticia.Data,
                     noticia.Imagens
                 })
-                .ToList();
+            .ToList();
 
             return Ok(resultado);
         }
@@ -44,28 +44,22 @@ namespace Noticias.Api
         [ResponseType(typeof(Models.Noticias))]
         public IHttpActionResult Get(int id)
         {
-            Models.Noticias noticias = db.Noticia.Find(id);
-            if (noticias == null) {
+            Models.Noticias noticia = db.Noticia.Find(id);
+
+            if (noticia == null) {
                 return NotFound();
             }
 
-            ICollection<Imagens> imagens = db.Imagem.Where(img => img.NoticiaFK == id).Select(imgs => imgs).ToList();
-
-            var resultado = db.Noticia.
-                Select(noticia => new
-                {
-                    noticia.NoticiasID,
-                    noticia.Resumo,
-                    noticia.Texto,
-                    noticia.Titulo,
-                    noticia.Data,
-                    noticia.Imagens
-                })
-                .Where(not => not.NoticiasID == id)
-                .FirstOrDefault();
-
-            noticias.Imagens = imagens;
-
+            var resultado = new
+            {
+                noticia.NoticiasID,
+                noticia.Resumo,
+                noticia.Texto,
+                noticia.Titulo,
+                noticia.Data,
+                Imagens = noticia.Imagens.Select(img => new { img.ImagemID, img.Directorio, img.Descricao }).ToList()
+                };
+            
             return Ok(resultado);
 
         }
@@ -91,7 +85,7 @@ namespace Noticias.Api
                 Resumo = model.Resumo,
                 Titulo = model.Titulo,
                 Texto = model.Texto,
-                Data = model.Data,
+                Data = DateTime.Now,
                 CategoriaFK = model.CategoriaFK,
                 JornalistaFK = 1
             };
@@ -146,11 +140,11 @@ namespace Noticias.Api
                            select not).FirstOrDefault();
 
             noticia.CategoriaFK = model.CategoriaFK;
-            noticia.Data = model.Data;
+            noticia.Data = DateTime.Now;
             noticia.JornalistaFK = noticia.JornalistaFK;
-            noticia.Resumo = noticia.Resumo;
-            noticia.Texto = noticia.Texto;
-            noticia.Titulo = noticia.Titulo;
+            noticia.Resumo = model.Resumo;
+            noticia.Texto = model.Texto;
+            noticia.Titulo = model.Titulo;
 
             db.Entry(noticia);
 
@@ -177,7 +171,7 @@ namespace Noticias.Api
         public IHttpActionResult Delete(int id)
         {
             // Verificar se existe referencia para este id
-            if ((db.Noticia.Select(not => not.NoticiasID == id) != null))
+            if ((db.Noticia.Select(not => not.NoticiasID == id) == null))
             {
                 return BadRequest("Sorry, seems something wrong. Couldn't determine record to update.");
             }
@@ -186,11 +180,11 @@ namespace Noticias.Api
                            where not.NoticiasID == id
                            select not).FirstOrDefault();
 
-            var imagem = (from img in db.Imagem
-                          where img.NoticiaFK == id
-                          select img).FirstOrDefault();
+            //var imagem = (from img in db.Imagem
+            //              where img.NoticiaFK == id
+            //              select img).FirstOrDefault();
 
-            db.Imagem.Remove(imagem);
+            //db.Imagem.Remove(imagem);
             db.Noticia.Remove(noticia);
 
             try

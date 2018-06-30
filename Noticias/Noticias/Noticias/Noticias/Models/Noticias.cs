@@ -47,7 +47,7 @@ namespace Noticias.Models
 
         //public Fotografos Fotografo { get; set; }
 
-        public ICollection<Imagens> Imagens { get; set; }
+        public virtual ICollection<Imagens> Imagens { get; set; }
 
     }
 }

@@ -24,3 +24,12 @@ function getNoticia(n) {
         });
 }
 
+function getCategorias() {
+    return fetch("/api/categorias", {
+        headers: { 'Accept': 'application/json' }
+    })
+        .then(resposta => resposta.json()); // JSON dos agentes.
+    //.then(function(resposta){
+    // resposta.json});
+}
+ 
