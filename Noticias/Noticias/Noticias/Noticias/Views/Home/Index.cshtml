@@ -1,50 +1,13 @@
-﻿<div id="root-noticias"></div>
-<form id="adicionar-noticia">
-   <div class="form-group">
-        <label for="titulo" class="control-label">Titulo</label>
-        <input required class="form-control" type="text" name="titulo" id="nome" />
-        <label for="resumo" class="control-label">Resumo</label>
-        <input required class="form-control" type="text" name="resumo" id="nome" />
-        <label for="texto" class="control-label">Texto</label>
-        <input required class="form-control" type="text" name="texto" id="nome" />
-        <label for="categoria" class="control-label">CategoriaFK</label>
-        <select required class="form-control" type="text" name="categoria" id="nome" >
-        </select>
+﻿
 
-        <button class="btn btn-primary" type="submit">Adicionar Noticia</button>
-    </div>
-</form>
-
-<form id="alterar-noticia" >
-    <div class="form-group">
-        <label for="titulo" class="control-label">Titulo</label>
-        <input required class="form-control" type="text" name="titulo" id="nome-alt" />
-        <label for="resumo" class="control-label">Resumo</label>
-        <input required class="form-control" type="text" name="resumo" id="nome-alt" />
-        <label for="texto" class="control-label">Texto</label>
-        <input required class="form-control" type="text" name="texto" id="nome-alt" />
-        <label for="categoria" class="control-label">CategoriaFK</label>
-        <select required class="form-control" type="text" name="categoria" id="nome-alt"></select>
-
-        <button class="btn btn-primary" type="submit">Alterar Noticia</button>
-    </div>
-</form>
-
-<form id="remover-noticia">
-    <div class="form-group">
-        <label for="categoria" class="control-label">CategoriaFK</label>
-        <select required class="form-control" type="text" name="categoria" id="nome"></select>
-
-        <button class="btn btn-primary" type="submit">Remover Noticia</button>
-    </div>
-</form>
-<div id="root-categorias"></div>
-<div id="root-imagens"></div>
-<div id="root-jornalistas"></div>
+<div id="root-noticias"></div>
+<div id="categorias"></div>
+<div id="notica-especifica"></div>
+<div id="adicionar-noticia"></div>
 
 
 @*Templates para as noticias*@
-<div class="hidden">
+<div class="hidden" id="hidden">
 
     @* Template da capa de uma noticia
 
@@ -77,127 +40,43 @@
     @*Template inpute de uma noticia*@
 
 
+    <form id="adicionar-noticia" name="root-noticias">
+        <div class="form-group">
+            <label for="titulo" class="control-label">Titulo</label>
+            <input required class="form-control" type="text" name="titulo" id="nome" />
+            <label for="resumo" class="control-label">Resumo</label>
+            <input required class="form-control" type="text" name="resumo" id="nome" />
+            <label for="texto" class="control-label">Texto</label>
+            <input required class="form-control" type="text" name="texto" id="nome" />
+            <label for="categoria" class="control-label">CategoriaFK</label>
+            <select required class="form-control" type="text" name="categoria" id="nome"></select>
+
+            <button class="btn btn-primary" type="submit">Adicionar Noticia</button>
+        </div>
+    </form>
+
+    <form id="alterar-noticia" name="root-noticias">
+        <div class="form-group">
+            <label for="titulo" class="control-label">Titulo</label>
+            <input required class="form-control" type="text" name="titulo" id="nome-alt" />
+            <label for="resumo" class="control-label">Resumo</label>
+            <input required class="form-control" type="text" name="resumo" id="nome-alt" />
+            <label for="texto" class="control-label">Texto</label>
+            <input required class="form-control" type="text" name="texto" id="nome-alt" />
+            <label for="categoria" class="control-label">CategoriaFK</label>
+            <select required class="form-control" type="text" name="categoria" id="nome-alt"></select>
+
+            <button class="btn btn-primary" type="submit">Alterar Noticia</button>
+        </div>
+    </form>
+
+    <form id="remover-noticia" name="root-noticias">
+        <div class="form-group">
+            <label for="categoria" class="control-label">CategoriaFK</label>
+            <select required class="form-control" type="text" name="categoria" id="nome"></select>
+
+            <button class="btn btn-primary" type="submit">Remover Noticia</button>
+        </div>
+    </form>
+
 </div>
-
-
-
-<script>
-
-    // Adicionar evento para submissão...
-    document.querySelector('#adicionar-noticia').addEventListener('submit', function (e) {
-        // Prevenir que o browser submeta o formulário por nós...
-        e.preventDefault();
-
-        let form = this;
-
-
-        let noticia = {
-            Titulo: form.querySelector('[name=titulo]').value,
-            Resumo: form.querySelector('[name=resumo]').value,
-            Texto: form.querySelector('[name=texto]').value,
-            CategoriaFK: form.querySelector('[name=categoria]').value
-        };
-
-        // Converter em JSON.
-        let jsonData = JSON.stringify(noticia);
-
-        // Usar o fetch para enviar o JSON, como POST (quero CRIAR, logo POST)
-        fetch('/api/noticias', { // Ver  Api/AgentesController, método PostAgentes
-            method: 'post', // Quero usar POST
-            headers: { 'Content-Type': 'application/json' }, // Vou enviar JSON
-            body: jsonData // Dados a enviar.
-        })
-            .then(resposta => { // Resposta da criação
-                if (resposta.ok) { // "ok" indica se 200 <= status < 300.
-                    return resposta.json(); // JSON do Noticia criada.
-                } else {
-                    // Erro (vai parar ao catch abaixo)
-                    return resposta.json()
-                        .then(erro => Promise.reject(erro));
-                }
-            })
-            // Agente criado. "novaNoticia" é o objeto do noticia.
-            // vamos adicionar o novo agente ao ecrã.
-            .then(novaNoticia => adicionarNoticia(noticia))
-            // Ocorreu um erro.
-            .catch(erro => {
-                console.error(erro);
-            });
-    });
-
-    document.querySelector('#alterar-noticia').addEventListener('submit', function (e) {
-        // Prevenir que o browser submeta o formulário por nós...
-        e.preventDefault();
-
-        let form = this;
-
-
-        let noticia = {
-            Titulo: form.querySelector('[name=titulo]').value,
-            Resumo: form.querySelector('[name=resumo]').value,
-            Texto: form.querySelector('[name=texto]').value,
-            CategoriaFK: form.querySelector('[name=categoria]').value
-        };
-
-        NoticiaID = 1;
-
-        // Converter em JSON.
-        let jsonData = JSON.stringify(noticia);
-
-        // Usar o fetch para enviar o JSON, como POST (quero CRIAR, logo POST)
-        fetch('/api/noticias/' + NoticiaID, { // Ver  Api/AgentesController, método PostAgentes
-            method: 'put', // Quero usar POST
-            headers: { 'Content-Type': 'application/json' }, // Vou enviar JSON
-            body: jsonData // Dados a enviar.
-        })
-            .then(resposta => { // Resposta da criação
-                if (resposta.ok) { // "ok" indica se 200 <= status < 300.
-                    return resposta.json(); // JSON do Noticia criada.
-                } else {
-                    // Erro (vai parar ao catch abaixo)
-                    return resposta.json()
-                        .then(erro => Promise.reject(erro));
-                }
-            })
-            // Agente criado. "novaNoticia" é o objeto do noticia.
-            // vamos adicionar o novo agente ao ecrã.
-            .then(novaNoticia => adicionarNoticia(noticia))
-            // Ocorreu um erro.
-            .catch(erro => {
-                console.error(erro);
-            });
-    });
-    
-    document.querySelector('#remover-noticia').addEventListener('submit', function (e) {
-        // Prevenir que o browser submeta o formulário por nós...
-        e.preventDefault();
-
-        let form = this;
-
-        let noticiaID = form.querySelector('[name=categoria]').value;
-
-        // Usar o fetch para enviar o JSON, como POST (quero CRIAR, logo POST)
-        fetch('/api/noticias/' + noticiaID, { // Ver  Api/AgentesController, método PostAgentes
-            method: 'delete'
-        })
-            .then(resposta => { // Resposta da criação
-                if (resposta.ok) { // "ok" indica se 200 <= status < 300.
-                    return resposta.json(); // JSON do Noticia criada.
-                } else {
-                    // Erro (vai parar ao catch abaixo)
-                    return resposta.json()
-                        .then(erro => Promise.reject(erro));
-                }
-            })
-            // Agente criado. "novaNoticia" é o objeto do noticia.
-            // vamos adicionar o novo agente ao ecrã.
-            .then(novaNoticia => adicionarNoticia(noticia))
-            // Ocorreu um erro.
-            .catch(erro => {
-                console.error(erro);
-            });
-    });
-
-
-
-</script>

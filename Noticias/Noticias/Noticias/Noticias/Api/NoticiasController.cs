@@ -180,11 +180,14 @@ namespace Noticias.Api
                            where not.NoticiasID == id
                            select not).FirstOrDefault();
 
-            //var imagem = (from img in db.Imagem
-            //              where img.NoticiaFK == id
-            //              select img).FirstOrDefault();
+            var imagem = (from img in db.Imagem
+                          where img.NoticiaFK == id
+                          select img);
 
-            //db.Imagem.Remove(imagem);
+            if (imagem != null)
+            {
+                db.Imagem.RemoveRange(imagem);
+            }
             db.Noticia.Remove(noticia);
 
             try

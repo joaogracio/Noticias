@@ -32,4 +32,18 @@ function getCategorias() {
     //.then(function(resposta){
     // resposta.json});
 }
+
+function getCategoria(n) {
+    var url = '/api/categoria/' + n;
+    return fetch(url, {
+        headers: { 'Accept': 'application/json' }
+    })
+        .then(resposta => resposta.json())
+        //.then(function (resposta) {
+        //   adicionarNoticiaCapa(resposta);
+        //})
+        .catch(function (error) {
+            console.log(error);
+        });
+}
  
