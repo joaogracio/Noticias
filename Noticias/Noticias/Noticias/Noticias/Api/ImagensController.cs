@@ -37,10 +37,10 @@ namespace Noticias.Api
         }
 
         // GET: api/Imagens/5
-        [ResponseType(typeof(Models.Imagens))]
+        [ResponseType(typeof(Models.ImagensNova))]
         public IHttpActionResult Get(int id)
         {
-            Models.Imagens imagens = db.Imagem.Find(id);
+            Models.ImagensNova imagens = db.Imagem.Find(id);
             if (imagens == null) {
                 return NotFound();
             }
@@ -61,8 +61,8 @@ namespace Noticias.Api
         }
 
         // POST: api/Imagens
-        [ResponseType(typeof(Models.Imagens))]
-        public IHttpActionResult Post([FromBody] Models.Imagens model)
+        [ResponseType(typeof(Models.ImagensNova))]
+        public IHttpActionResult Post([FromBody] Models.ImagensNova model)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace Noticias.Api
 
             var ID = db.Imagem.Select(id => id.ImagemID).Max() + 1;
 
-            var imagem = new Models.Imagens
+            var imagem = new Models.ImagensNova
             {
                 ImagemID = ID,
                 NoticiaFK = model.NoticiaFK,
@@ -109,7 +109,7 @@ namespace Noticias.Api
         }
 
         // PUT: api/Imagens/5
-        public IHttpActionResult Put(int id, [FromBody] Models.Imagens model)
+        public IHttpActionResult Put(int id, [FromBody] Models.ImagensNova model)
         {
             if (!ModelState.IsValid)
             {

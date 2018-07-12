@@ -12,7 +12,7 @@ namespace Noticias.Models
         private Noticias model;
 
         public Noticias() {
-            Imagens = new HashSet<Imagens>();
+            Imagens = new HashSet<ImagensNova>();
         }
 
         public Noticias(Noticias model)
@@ -47,7 +47,7 @@ namespace Noticias.Models
 
         //public Fotografos Fotografo { get; set; }
 
-        public virtual ICollection<Imagens> Imagens { get; set; }
+        public virtual ICollection<ImagensNova> Imagens { get; set; }
 
     }
 }

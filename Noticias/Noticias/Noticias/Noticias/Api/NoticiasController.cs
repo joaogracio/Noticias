@@ -79,6 +79,12 @@ namespace Noticias.Api
             // Para determinar o ID da proxima noticia
             var ID = db.Noticia.Select(id => id.NoticiasID).Max() + 1;
 
+            var IDimg = (ImagensNova) db.Imagem.Select(id => id.Directorio == "Noticia.png");
+
+            ICollection<ImagensNova> ImagensNova;
+
+            //ImagensNova.Add(IDimg);
+
             var noticia = new Models.Noticias
             {
                 NoticiasID = ID,

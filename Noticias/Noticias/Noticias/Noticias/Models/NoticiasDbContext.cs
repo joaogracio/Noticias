@@ -18,7 +18,7 @@ namespace Noticias.Models
         public virtual DbSet<Noticias> Noticia { get; set; }
         //public virtual DbSet<Fotografos> Fotografo { get; set; }
         public virtual DbSet<Jornalistas> Jornalista { get; set; }
-        public virtual DbSet<Imagens> Imagem { get; set; }
+        public virtual DbSet<ImagensNova> Imagem { get; set; }
         public virtual DbSet<Categorias> Categoria { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

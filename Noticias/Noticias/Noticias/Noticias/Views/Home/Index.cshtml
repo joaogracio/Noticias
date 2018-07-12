@@ -1,82 +1,11 @@
 ﻿
-
 <div id="root-noticias"></div>
 <div id="categorias"></div>
 <div id="notica-especifica"></div>
-<div id="adicionar-noticia"></div>
+<div id="retornar"></div>
 
-
-@*Templates para as noticias*@
-<div class="hidden" id="hidden">
-
-    @* Template da capa de uma noticia
-
-    *@
-    <div id="template-capa">
-        @*Titulo da Noticia*@
-        <h1></h1>
-        @*Texto da Noticia*@
-        <p class="lead"></p>
-        @**@
-        <img src="" />
-        @*Link para ver a noticia especifica*@
-        <p><a href="" class="btn btn-primary btn-lg"></a></p>
-    </div>
-
-
-    @*Template de HTML de uma noticia
-
-    *@
-
-    <div class="col-md-4" id="template-noticia">
-        @*Titulo da Noticia*@
-        <h2></h2>
-        @*Texto da Noticia*@
-        <p></p>
-        @*Link para ver a noticia em espifica*@
-        <p><a class="btn btn-default" href=""></a></p>
-    </div>
-
-    @*Template inpute de uma noticia*@
-
-
-    <form id="adicionar-noticia" name="root-noticias">
-        <div class="form-group">
-            <label for="titulo" class="control-label">Titulo</label>
-            <input required class="form-control" type="text" name="titulo" id="nome" />
-            <label for="resumo" class="control-label">Resumo</label>
-            <input required class="form-control" type="text" name="resumo" id="nome" />
-            <label for="texto" class="control-label">Texto</label>
-            <input required class="form-control" type="text" name="texto" id="nome" />
-            <label for="categoria" class="control-label">CategoriaFK</label>
-            <select required class="form-control" type="text" name="categoria" id="nome"></select>
-
-            <button class="btn btn-primary" type="submit">Adicionar Noticia</button>
-        </div>
-    </form>
-
-    <form id="alterar-noticia" name="root-noticias">
-        <div class="form-group">
-            <label for="titulo" class="control-label">Titulo</label>
-            <input required class="form-control" type="text" name="titulo" id="nome-alt" />
-            <label for="resumo" class="control-label">Resumo</label>
-            <input required class="form-control" type="text" name="resumo" id="nome-alt" />
-            <label for="texto" class="control-label">Texto</label>
-            <input required class="form-control" type="text" name="texto" id="nome-alt" />
-            <label for="categoria" class="control-label">CategoriaFK</label>
-            <select required class="form-control" type="text" name="categoria" id="nome-alt"></select>
-
-            <button class="btn btn-primary" type="submit">Alterar Noticia</button>
-        </div>
-    </form>
-
-    <form id="remover-noticia" name="root-noticias">
-        <div class="form-group">
-            <label for="categoria" class="control-label">CategoriaFK</label>
-            <select required class="form-control" type="text" name="categoria" id="nome"></select>
-
-            <button class="btn btn-primary" type="submit">Remover Noticia</button>
-        </div>
-    </form>
-
+<div id="reload">
+    <input type="button" value="Voltar á Página Inicial" onClick="window.location.reload()">
 </div>
+
+

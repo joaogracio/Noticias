@@ -34,10 +34,11 @@ namespace Noticias.Migrations
 
 
             context.Imagem.AddOrUpdate(x => x.ImagemID,
-                new Models.Imagens { ImagemID = 1, Descricao = "Mariana Mortágua, do Bloco de Esquerda, durante o debate desta terça-feira na Assembleia da República", Tipo = "Cabeçalho", Directorio = "Mariana_Mortagua.jpg", NoticiaFK = 1 },
-                new Models.Imagens { ImagemID = 2, Descricao = "", Tipo = "Cabeçalho", Directorio = "A_Luta.jpg", NoticiaFK = 2 },
-                new Models.Imagens { ImagemID = 3, Descricao = "", Tipo = "Cabeçalho", Directorio = "Marcelo.jpg", NoticiaFK = 3 },
-                new Models.Imagens { ImagemID = 4, Descricao = "", Tipo = "Cabeçalho", Directorio = "Milhares.jpg", NoticiaFK = 4 }
+                new Models.ImagensNova { ImagemID = 1, Descricao = "Mariana Mortágua, do Bloco de Esquerda, durante o debate desta terça-feira na Assembleia da República", Tipo = "Cabeçalho", Directorio = "Mariana_Mortagua.jpg", NoticiaFK = 1 },
+                new Models.ImagensNova { ImagemID = 2, Descricao = "", Tipo = "Cabeçalho", Directorio = "A_Luta.jpg", NoticiaFK = 2 },
+                new Models.ImagensNova { ImagemID = 3, Descricao = "", Tipo = "Cabeçalho", Directorio = "Marcelo.jpg", NoticiaFK = 3 },
+                new Models.ImagensNova { ImagemID = 4, Descricao = "", Tipo = "Cabeçalho", Directorio = "Milhares.jpg", NoticiaFK = 4 },
+                new Models.ImagensNova { ImagemID = 5, Descricao = "", Tipo = "Cabeçalho", Directorio = "Noticia.png", NoticiaFK = 1025 }
 
                 );
 

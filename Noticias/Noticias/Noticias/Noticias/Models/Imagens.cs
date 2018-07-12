@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Noticias.Models
 {
-    public class Imagens
+    public class ImagensNova
     {
         [Key]
         public int ImagemID { get; set; }
